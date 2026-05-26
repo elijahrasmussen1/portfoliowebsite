@@ -152,7 +152,7 @@ export default function AboutMe() {
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
           width: 120%; height: 200%;
-          background: radial-gradient(ellipse at center, rgba(255,100,180,0.35) 0%, transparent 70%);
+          background: radial-gradient(ellipse at center, rgba(80,140,255,0.35) 0%, transparent 70%);
           filter: blur(18px);
           z-index: 0;
           pointer-events: none;
@@ -179,7 +179,7 @@ export default function AboutMe() {
           position: absolute;
           top: 50%;
           transform-origin: left center;
-          background: rgba(235, 80, 120, 0.85);
+          background: rgba(80, 120, 235, 0.85);
           z-index: 1;
           pointer-events: none;
           transform: translateY(-40%) translateX(-12px) scaleX(0);
@@ -220,11 +220,11 @@ export default function AboutMe() {
           -webkit-text-stroke: 1px rgba(0,180,255,0.4);
           transition: color 0.12s ease, text-shadow 0.12s ease;
         }
-        .ab-row.active .ab-label-dark { color: #6b0010; text-shadow: none; -webkit-text-stroke: 0; }
+        .ab-row.active .ab-label-dark { color: #001a4d; text-shadow: none; -webkit-text-stroke: 0; }
         .ab-row:hover:not(.active) .ab-label-dark { color: #ffffff; text-shadow: 0 0 12px rgba(0,220,255,0.9), 0 2px 6px rgba(0,0,0,0.9); }
 
         .ab-label-bright {
-          color: #ff2a2a;
+          color: #4da6ff;
           position: absolute;
           inset: 0;
           z-index: 1;
@@ -323,7 +323,7 @@ export default function AboutMe() {
           pointer-events: none;
           background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(243,246,252,0.98) 100%);
           clip-path: polygon(0 0, 100% 0, calc(100% - 88px) 100%, 0 100%);
-          box-shadow: 0 0 0 2px rgba(255,255,255,0.18), 18px 0 0 rgba(215, 13, 44, 0.82), 28px 0 0 rgba(255,255,255,0.26);
+          box-shadow: 0 0 0 2px rgba(255,255,255,0.18), 18px 0 0 rgba(30, 90, 215, 0.82), 28px 0 0 rgba(255,255,255,0.26);
           opacity: 0;
           transform: translateX(-40px) rotate(-20deg);
           transform-origin: left bottom;
@@ -339,7 +339,7 @@ export default function AboutMe() {
           position: absolute;
           top: 0; left: 0;
           width: 100%; height: 8px;
-          background: linear-gradient(180deg, #e03d31 0%, #eb3333 100%);
+          background: linear-gradient(180deg, #1a6aff 0%, #3380ff 100%);
           clip-path: inherit;
         }
         .ab-reveal-upper-bar {
@@ -400,7 +400,7 @@ export default function AboutMe() {
         }
         .ab-right-nav .ab-nav-arrow {
           font-family: 'Bebas Neue', sans-serif;
-          font-size: 22px; color: #c4001a;
+          font-size: 22px; color: #1a6aff;
           display: inline-block; user-select: none;
         }
         .ab-right-nav .ab-nav-arrow.left  { animation: ab-arrow-left  0.8s ease-in-out infinite; }

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { useRef, useEffect, useState } from "react";
 
 const defaultBlocks = ["#0d1a3a", "#1a6aff", "#7dd4fc"];
 
@@ -27,37 +28,56 @@ function DefaultTransition() {
 }
 
 function AboutTransition() {
-  const panels = [
-    { color: "#00184c", top: "-12vh", left: "-18vw", width: "86vw", delay: 0 },
-    { color: "#53edff", top: "24vh", left: "-10vw", width: "72vw", delay: 0.05 },
-    { color: "#ffffff", top: "58vh", left: "-14vw", width: "82vw", delay: 0.1 },
-  ];
+  const videoRef = useRef(null);
+  const [visible, setVisible] = useState(true);
+  const [videoSrc, setVideoSrc] = useState(null);
 
-  return panels.map((panel, i) => (
-    <motion.div
-      key={i}
+  useEffect(() => {
+    // Dynamically import the transition video (may not exist in repo)
+    import("./assets/tran.mp4")
+      .then((mod) => setVideoSrc(mod.default))
+      .catch(() => {
+        // Video not available, hide transition after brief delay
+        setTimeout(() => setVisible(false), 450);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!videoSrc || !videoRef.current) return;
+    const vid = videoRef.current;
+    vid.currentTime = 0;
+    vid.play().catch(() => {});
+    const timer = setTimeout(() => setVisible(false), 1000);
+    return () => clearTimeout(timer);
+  }, [videoSrc]);
+
+  if (!visible) return null;
+
+  return (
+    <div
       style={{
         position: "fixed",
-        top: panel.top,
-        left: panel.left,
-        width: panel.width,
-        height: "26vh",
-        background: panel.color,
-        zIndex: 999 - i,
-        clipPath: "polygon(0 0, 100% 0, calc(100% - 120px) 100%, 0 100%)",
-        transform: "rotate(-18deg)",
-        transformOrigin: "left center",
+        inset: 0,
+        zIndex: 9999,
+        pointerEvents: "none",
+        mixBlendMode: "screen",
       }}
-      initial={{ x: -500, opacity: 0 }}
-      animate={{ x: [-500, 20, 0], opacity: [1, 1, 0] }}
-      transition={{
-        duration: 0.52,
-        delay: panel.delay,
-        times: [0, 0.68, 1],
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    />
-  ));
+    >
+      {videoSrc && (
+        <video
+          ref={videoRef}
+          src={videoSrc}
+          muted={false}
+          playsInline
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
+      )}
+    </div>
+  );
 }
 
 
@@ -137,6 +157,7 @@ function ResumeTransition() {
 
 export default function PageTransition({ children, variant = "default" }) {
   const location = useLocation();
+  const contentDelay = variant === "about" ? 0.4 : 0.18;
 
   return (
     <AnimatePresence mode="wait">
@@ -146,7 +167,7 @@ export default function PageTransition({ children, variant = "default" }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, delay: 0.18 }}
+          transition={{ duration: 0.2, delay: contentDelay }}
         >
           {children}
         </motion.div>
