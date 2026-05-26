@@ -202,13 +202,13 @@ export default function P3Menu({ onNavigate }) {
           font-size: 108px;
           line-height: 0.88;
           letter-spacing: 4px;
-          color: #4a90d9;
-          background: linear-gradient(135deg, #6b5ce7 0%, #4a90d9 40%, #3ce2ff 100%);
+          color: #7df9ff;
+          background: linear-gradient(135deg, #b388ff 0%, #7df9ff 45%, #ffffff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.25);
-          filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 8px rgba(60, 226, 255, 0.3));
+          -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
+          filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 12px rgba(125, 249, 255, 0.6)) drop-shadow(0 0 24px rgba(179, 136, 255, 0.3));
           transform: rotate(18deg);
           transform-origin: left top;
           user-select: none;
@@ -218,7 +218,7 @@ export default function P3Menu({ onNavigate }) {
           align-items: flex-start;
         }
         .p3-name-tag span:first-child {
-          background: linear-gradient(135deg, #8b6ce7 0%, #5a7fd9 50%, #3ce2ff 100%);
+          background: linear-gradient(135deg, #c9a0ff 0%, #7df9ff 50%, #ffffff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
