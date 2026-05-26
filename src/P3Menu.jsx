@@ -197,12 +197,15 @@ export default function P3Menu({ onNavigate }) {
           top: 18px;
           left: 22px;
           z-index: 20;
-          font-family: 'Anton', sans-serif;
-          font-style: italic;
+          font-family: 'The Jacatra', sans-serif;
+          font-style: normal;
           font-size: 108px;
           line-height: 0.88;
           letter-spacing: 2px;
-          color: rgba(10, 10, 14, 0.64);
+          background: linear-gradient(135deg, #6b5ce7 0%, #4a90d9 40%, #3ce2ff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
           transform: rotate(18deg);
           transform-origin: left top;
           user-select: none;
@@ -212,7 +215,10 @@ export default function P3Menu({ onNavigate }) {
           align-items: flex-start;
         }
         .p3-name-tag span:first-child {
-          color: rgba(0, 0, 0, 0.86);
+          background: linear-gradient(135deg, #8b6ce7 0%, #5a7fd9 50%, #3ce2ff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
       `}</style>
 
