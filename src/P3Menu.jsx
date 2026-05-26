@@ -152,11 +152,13 @@ export default function P3Menu({ onNavigate }) {
         }
 
         .p3-label-dark {
-          color: #3ce2ff;
-          transition: color 0.12s ease;
+          color: #ffffff;
+          text-shadow: 0 0 8px rgba(0,200,255,0.7), 0 2px 4px rgba(0,0,0,0.8);
+          -webkit-text-stroke: 1px rgba(0,180,255,0.4);
+          transition: color 0.12s ease, text-shadow 0.12s ease;
         }
-        .p3-row.active .p3-label-dark { color: #6b0010; }
-        .p3-row:hover:not(.active) .p3-label-dark { color: #00d9ff; }
+        .p3-row.active .p3-label-dark { color: #6b0010; text-shadow: none; -webkit-text-stroke: 0; }
+        .p3-row:hover:not(.active) .p3-label-dark { color: #ffffff; text-shadow: 0 0 12px rgba(0,220,255,0.9), 0 2px 6px rgba(0,0,0,0.9); }
 
         .p3-label-bright {
           color: #ff2a2a;
@@ -217,7 +219,7 @@ export default function P3Menu({ onNavigate }) {
       <div className="p3-overlay">
         <div className="p3-name-tag">
           <span>elijxhraz</span>
-          <span>.tech</span>
+          <span>&nbsp;.tech</span>
         </div>
         <div className="p3-stripe" />
         <div className="p3-stripe2" />
