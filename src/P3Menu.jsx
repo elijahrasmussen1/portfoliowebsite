@@ -201,12 +201,14 @@ export default function P3Menu({ onNavigate }) {
           font-style: normal;
           font-size: 108px;
           line-height: 0.88;
-          letter-spacing: 2px;
+          letter-spacing: 4px;
           color: #4a90d9;
           background: linear-gradient(135deg, #6b5ce7 0%, #4a90d9 40%, #3ce2ff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+          -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.25);
+          filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 8px rgba(60, 226, 255, 0.3));
           transform: rotate(18deg);
           transform-origin: left top;
           user-select: none;
