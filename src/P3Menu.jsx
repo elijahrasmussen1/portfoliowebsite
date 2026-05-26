@@ -202,6 +202,7 @@ export default function P3Menu({ onNavigate }) {
           font-size: 108px;
           line-height: 0.88;
           letter-spacing: 2px;
+          color: #4a90d9;
           background: linear-gradient(135deg, #6b5ce7 0%, #4a90d9 40%, #3ce2ff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
