@@ -69,9 +69,12 @@ function AboutTransition() {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        // Key out red: if pixel is mostly red with low green and blue
-        if (r > 100 && r > g * 1.8 && r > b * 1.8) {
-          data[i + 3] = 0; // make transparent
+        // Key out red background: bright reds, dark reds, and near-black pixels
+        const isRed = r > 80 && r > g * 1.4 && r > b * 1.4;
+        const isDarkRed = r > 30 && g < 60 && b < 60 && r > g && r > b;
+        const isNearBlack = r < 40 && g < 40 && b < 40;
+        if (isRed || isDarkRed || isNearBlack) {
+          data[i + 3] = 0; // fully transparent
         }
       }
       ctx.putImageData(frame, 0, 0);
