@@ -51,15 +51,19 @@ function AboutTransition() {
     vid.currentTime = 0;
     vid.play().catch(() => {});
 
+    const w = vid.videoWidth || 1920;
+    const h = vid.videoHeight || 1080;
+    canvas.width = w;
+    canvas.height = h;
+
     const draw = () => {
       if (vid.paused || vid.ended) {
         setVisible(false);
         return;
       }
-      canvas.width = vid.videoWidth || 1920;
-      canvas.height = vid.videoHeight || 1080;
-      ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
-      const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, w, h);
+      ctx.drawImage(vid, 0, 0, w, h);
+      const frame = ctx.getImageData(0, 0, w, h);
       const data = frame.data;
       for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
@@ -94,6 +98,7 @@ function AboutTransition() {
         inset: 0,
         zIndex: 9999,
         pointerEvents: "none",
+        background: "transparent",
       }}
     >
       {videoSrc && (
@@ -111,6 +116,7 @@ function AboutTransition() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
+              background: "transparent",
             }}
           />
         </>
