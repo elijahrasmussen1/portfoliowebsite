@@ -199,20 +199,28 @@ export default function PageTransition({ children, variant = "default" }) {
   const isAbout = variant === "about";
 
   return (
-    <motion.div
-      key={location.pathname}
-      style={{
-        position: "absolute",
-        inset: 0,
-        zIndex: isAbout ? 1 : 0,
-      }}
-      initial={{ opacity: isAbout ? 1 : 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: isAbout ? 0 : 0.2, delay: isAbout ? 0 : 0.18 }}
-    >
-      <TransitionOverlay variant={variant} />
-      {children}
-    </motion.div>
+    <>
+      {/* Render the about transition overlay outside the opacity-controlled wrapper
+          so it's visible immediately (over the main page) while content fades in beneath */}
+      {isAbout && <TransitionOverlay variant={variant} />}
+      <motion.div
+        key={location.pathname}
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: isAbout ? 1 : 0,
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: isAbout ? 0.3 : 0.2,
+          delay: isAbout ? 0.7 : 0.18,
+        }}
+      >
+        {!isAbout && <TransitionOverlay variant={variant} />}
+        {children}
+      </motion.div>
+    </>
   );
 }
