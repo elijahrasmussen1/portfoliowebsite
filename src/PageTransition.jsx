@@ -28,7 +28,8 @@ function DefaultTransition() {
 }
 
 // Reusable chroma-key video component (optimized for performance)
-function ChromaKeyVideo({ src, onEnded, muted = false }) {
+// keyColor: "red" (default) or "green" for green-screen keying
+function ChromaKeyVideo({ src, onEnded, muted = false, keyColor = "red" }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const animRef = useRef(null);
@@ -81,12 +82,22 @@ function ChromaKeyVideo({ src, onEnded, muted = false }) {
         const r = pixel & 0xff;
         const g = (pixel >> 8) & 0xff;
         const b = (pixel >> 16) & 0xff;
-        if (
-          (r > 80 && r > g * 1.4 && r > b * 1.4) ||
-          (r > 30 && g < 60 && b < 60 && r > g && r > b) ||
-          (r < 40 && g < 40 && b < 40)
-        ) {
-          d[i] = 0; // fully transparent (all channels zero)
+        let shouldKey = false;
+        if (keyColor === "green") {
+          // Green screen keying
+          shouldKey =
+            (g > 80 && g > r * 1.4 && g > b * 1.4) ||
+            (g > 30 && r < 60 && b < 60 && g > r && g > b) ||
+            (r < 40 && g < 40 && b < 40);
+        } else {
+          // Red screen keying
+          shouldKey =
+            (r > 80 && r > g * 1.4 && r > b * 1.4) ||
+            (r > 30 && g < 60 && b < 60 && r > g && r > b) ||
+            (r < 40 && g < 40 && b < 40);
+        }
+        if (shouldKey) {
+          d[i] = 0; // fully transparent
         }
       }
       ctx.putImageData(frame, 0, 0);
@@ -189,9 +200,23 @@ function SocialsTransition() {
 
 function TransitionOverlay({ variant }) {
   if (variant === "about") return <AboutTransition />;
+  if (variant === "policies") return <PolicyTransition />;
   if (variant === "resume") return <ResumeTransition />;
   if (variant === "socials") return <SocialsTransition />;
   return <DefaultTransition />;
+}
+
+// Entry transition for policies page: green-screen chroma key
+function PolicyTransition() {
+  const [videoSrc, setVideoSrc] = useState(null);
+
+  useEffect(() => {
+    import("./assets/policy.mp4")
+      .then((mod) => setVideoSrc(mod.default))
+      .catch(() => {});
+  }, []);
+
+  return <ChromaKeyVideo src={videoSrc} keyColor="green" />;
 }
 
 function ResumeTransition() {
@@ -230,27 +255,27 @@ function ResumeTransition() {
 
 export default function PageTransition({ children, variant = "default" }) {
   const location = useLocation();
-  const isAbout = variant === "about";
+  const isOverlay = variant === "about" || variant === "policies";
 
   return (
     <>
-      {isAbout && <TransitionOverlay variant={variant} />}
+      {isOverlay && <TransitionOverlay variant={variant} />}
       <motion.div
         key={location.pathname}
         style={{
           position: "absolute",
           inset: 0,
-          zIndex: isAbout ? 1 : 0,
+          zIndex: isOverlay ? 1 : 0,
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{
-          duration: isAbout ? 0.3 : 0.2,
-          delay: isAbout ? 0.1 : 0.18,
+          duration: isOverlay ? 0.3 : 0.2,
+          delay: isOverlay ? 0.1 : 0.18,
         }}
       >
-        {!isAbout && <TransitionOverlay variant={variant} />}
+        {!isOverlay && <TransitionOverlay variant={variant} />}
         {children}
       </motion.div>
     </>

@@ -11,6 +11,7 @@ import ResumePage from './ResumePage'
 import PageTransition, { ExitTransitionOverlay } from './PageTransition'
 import Socials from './Socials'
 import AboutMe from './AboutMe'
+import PoliciesPage from './PoliciesPage'
 import './App.css'
 
 function MenuScreen({ onNavigate }) {
@@ -73,6 +74,9 @@ function AnimatedRoutes() {
           } />
           <Route path="/socials" element={
             <PageTransition variant="socials"><Socials /></PageTransition>
+          } />
+          <Route path="/policies" element={
+            <PageTransition variant="policies"><PoliciesPage /></PageTransition>
           } />
         </Routes>
       </AnimatePresence>
