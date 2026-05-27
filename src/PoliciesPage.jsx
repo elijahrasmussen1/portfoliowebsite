@@ -45,9 +45,6 @@ export default function PoliciesPage() {
           {policyText.split("\n").map(renderLine)}
         </div>
       </div>
-      <button className="policies-back-btn" onClick={() => navigate(-1)}>
-        ← BACK
-      </button>
       <style>{`
         .policies-page {
           position: relative;
@@ -85,27 +82,19 @@ export default function PoliciesPage() {
         }
         .policies-body {
           font-family: 'Montserrat', 'Segoe UI', sans-serif;
-          font-size: 14px;
-          line-height: 1.7;
-          color: rgba(255, 255, 255, 0.88);
+          font-size: 15px;
+          font-weight: 500;
+          line-height: 1.8;
+          color: rgba(255, 255, 255, 0.95);
           overflow-y: auto;
           flex: 1;
           padding-right: 20px;
           padding-bottom: 80px;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
         }
         .policies-body::-webkit-scrollbar {
-          width: 6px;
-        }
-        .policies-body::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 3px;
-        }
-        .policies-body::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 3px;
-        }
-        .policies-body::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.35);
+          display: none;
         }
         .policies-h1 {
           font-size: 22px;
@@ -128,6 +117,7 @@ export default function PoliciesPage() {
         }
         .policies-line {
           margin: 0 0 6px 0;
+          font-weight: 500;
         }
         .policies-bold {
           font-weight: 700;
@@ -152,26 +142,6 @@ export default function PoliciesPage() {
           border: none;
           border-top: 1px solid rgba(255, 255, 255, 0.15);
           margin: 24px 0;
-        }
-        .policies-back-btn {
-          position: fixed;
-          bottom: 28px;
-          left: 60px;
-          z-index: 10;
-          background: rgba(0, 0, 0, 0.7);
-          border: 1px solid rgba(125, 249, 255, 0.4);
-          color: #7df9ff;
-          font-family: 'Anton', sans-serif;
-          font-size: 16px;
-          letter-spacing: 2px;
-          padding: 10px 24px;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: background 0.2s, color 0.2s;
-        }
-        .policies-back-btn:hover {
-          background: rgba(125, 249, 255, 0.15);
-          color: #ffffff;
         }
       `}</style>
     </div>

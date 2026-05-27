@@ -1,3 +1,422 @@
-POLICIES
+# elijxhraz.tech Terms of Service & Privacy Policy
 
-This is a placeholder for the policies document. Replace this file with your full policies text.
+**Last Updated:** May 27, 2026
+
+These Terms of Service and Privacy Policy apply to all services, websites, applications, Discord bots, verification systems, hosting systems, and related platforms operated under elijxhraz.tech, including but not limited to:
+
+* Cool Cola
+* Eli's Helper
+* Scarlet Webs
+* Verification systems
+* Bot hosting services
+* Discord integrations
+* Roblox integrations
+* Community management systems
+* Associated websites, dashboards, APIs, and infrastructure
+
+Welcome to Elijxhraz.tech. By accessing or using any service, application, website, Discord bot, verification system, hosting platform, API, or related service operated under Elijxhraz.tech (collectively referred to as the “Services,” “we,” “our,” or “us”), you agree to these Terms of Service and Privacy Policy.
+
+If you do not agree to these terms, you must discontinue use of the Services immediately.
+
+These terms are intended to provide transparency regarding how information is handled, how services are operated, and the responsibilities of users who interact with our systems.
+
+---
+
+# 1. Main Website & Platform
+
+## About elijxhraz.tech
+
+elijxhraz.tech is the primary platform and central domain used to operate and manage multiple online services, applications, Discord bots, hosting systems, verification systems, APIs, and related infrastructure.
+
+The website may provide:
+
+* Account verification systems
+* User dashboards
+* Documentation
+* API access
+* Hosting-related tools
+* Support resources
+* Authentication systems
+* Status and logging systems
+* Community management utilities
+* Redirects to project-specific services
+* Security and abuse-prevention systems
+
+By using elijxhraz.tech or any connected service, users agree to these Terms of Service and Privacy Policy.
+
+The main website may act as a central authentication, routing, hosting, or management platform for additional projects operated under the elijxhraz.tech ecosystem.
+
+---
+
+# 2. Verification Bridges & Connected Services
+
+elijxhraz.tech operates verification bridges and connected systems used to link external platforms, accounts, and community services.
+
+These systems are designed to help communities verify ownership of accounts, synchronize permissions, improve security, and reduce impersonation or abuse.
+
+Verification bridges may connect platforms including:
+
+* Discord
+* Roblox
+* Community management systems
+* Web dashboards
+* APIs and authentication systems
+
+Verification systems may process limited information necessary to operate correctly, including:
+
+* Discord user IDs
+* Roblox user IDs
+* Verification status
+* Server membership information
+* Role synchronization data
+* Authentication session data
+* Security and anti-abuse indicators
+
+These systems are intended solely for operational, moderation, authentication, and security-related purposes.
+
+elijxhraz.tech does not intentionally request passwords, backup codes, or highly sensitive account credentials through verification systems.
+
+Users should never share passwords or authentication secrets through unofficial prompts, messages, or third-party systems.
+
+---
+
+# 3. Hosting & Infrastructure Services
+
+elijxhraz.tech may provide infrastructure-related services including hosting systems, deployment systems, APIs, automation infrastructure, logging systems, development tools, and related web services.
+
+Hosting or infrastructure-related systems may involve:
+
+* File storage
+* Environment configuration
+* Application deployment
+* Database connectivity
+* Logging systems
+* Runtime process management
+* Diagnostic systems
+* Security systems
+* Infrastructure monitoring
+* Abuse prevention systems
+
+We aim to maintain professional operational and security standards for infrastructure and hosted information.
+
+Reasonable measures may be used to help protect sensitive information from unauthorized access, misuse, or exposure.
+
+However, no online platform or infrastructure provider can guarantee absolute security.
+
+Users remain responsible for maintaining the security of their own accounts, credentials, and hosted applications.
+
+---
+
+# 2. Eligibility
+
+By using Cool Cola, you confirm that:
+
+* You comply with Discord’s Terms of Service and Community Guidelines.
+* You comply with Roblox’s Terms of Use.
+* You are authorized to use the Discord and Roblox accounts you connect.
+* You will not use the Bot for abuse, harassment, exploitation, automation abuse, or illegal activity.
+
+We reserve the right to deny access to the Bot at any time for misuse or violations of these terms.
+
+---
+
+# 3. Verification & Account Linking
+
+Cool Cola may request limited information necessary to verify ownership of your Roblox and Discord accounts.
+
+Verification may include:
+
+* Your Discord user ID
+* Your Roblox user ID or username
+* Verification tokens or codes
+* Server-specific verification status
+
+This information is used only to operate the verification system and related features.
+
+Cool Cola does not request your Roblox password, Discord password, or other sensitive login credentials.
+
+---
+
+# 4. Privacy Policy
+
+Your privacy is important to us. This section explains how information may be collected, processed, stored, and protected across Elijxhraz.tech services.
+
+By using the Services, you acknowledge and agree to the collection and use of information as described in this policy.
+
+## Information We Collect
+
+Depending on the service being used, we may collect, process, or temporarily store information including but not limited to:
+
+* Discord user IDs
+* Discord usernames and profile information
+* Roblox user IDs and usernames
+* Verification status information
+* Server membership information
+* Guild-specific configuration data
+* API interaction logs
+* Diagnostic information
+* Device or browser information
+* IP-related technical information
+* Authentication session information
+* Hosting configuration information
+* Application logs
+* Crash reports and debugging information
+* Infrastructure performance metrics
+* Bot interaction logs
+* Timestamp and activity data
+* Security and anti-abuse indicators
+
+To provide the Bot’s services, Cool Cola may collect and temporarily process:
+
+* Discord user IDs
+* Roblox user IDs and usernames
+* Server membership information
+* Verification status
+* Bot interaction data
+* Basic technical and diagnostic information used for security and reliability
+
+## Information We Do NOT Sell
+
+Elijxhraz.tech does not sell, rent, lease, trade, or distribute personal information to third parties for advertising or marketing purposes.
+
+We do not intentionally monetize user data.
+
+Information collected through verification systems, hosting systems, or Discord integrations is used strictly for operational, security, moderation, infrastructure, verification, and service-related purposes.
+
+## Bot Hosting & Sensitive Information
+
+For users utilizing hosting-related services, certain application data or sensitive configuration information may be processed or stored in order to operate hosted systems.
+
+Examples may include:
+
+* Configuration files
+* Environment variables
+* Database connection information
+* Bot tokens or authentication credentials
+* Deployment settings
+* Runtime logs
+* Infrastructure-related metadata
+
+We take reasonable and professional measures intended to help protect hosted information from unauthorized access, misuse, exposure, or abuse.
+
+Security measures may include:
+
+* Access restrictions
+* Authentication systems
+* Infrastructure monitoring
+* Security logging
+* Limited administrative access
+* Encryption where applicable
+* Abuse prevention systems
+* Rate limiting and anti-attack systems
+
+While we take security seriously, no online platform or infrastructure provider can guarantee absolute security.
+
+Users remain responsible for maintaining the security of their own accounts, credentials, and applications.
+
+## Data Storage
+
+We aim to minimize stored information whenever possible.
+
+Verification-related information may be stored only as long as necessary to:
+
+* Maintain account verification
+* Prevent abuse and fraud
+* Operate server features
+* Improve reliability and security
+
+## Verification Systems
+
+Verification systems used by Cool Cola, Eli's Helper, or related services may temporarily process account-related information to:
+
+* Verify ownership of accounts
+* Prevent impersonation
+* Prevent spam or abuse
+* Assign community permissions
+* Synchronize roles
+* Restrict unauthorized access
+* Improve server security
+
+Verification systems do not intentionally request passwords for Roblox, Discord, or other third-party accounts.
+
+Users should never share passwords, backup codes, authentication tokens, or other highly sensitive credentials through Discord messages or verification prompts unless explicitly instructed through secure and authorized systems.
+
+## Sensitive Information
+
+Cool Cola does not intentionally collect:
+
+* Passwords
+* Payment information
+* Private messages unrelated to Bot commands
+* Personal addresses
+* Government identification
+
+If sensitive information is accidentally submitted, we may remove it when possible.
+
+## Security
+
+We take reasonable steps to help protect stored information from unauthorized access, abuse, or misuse. However, no online service can guarantee complete security.
+
+By using the Bot, you understand and accept that you use online services at your own risk.
+
+---
+
+# 5. Use Restrictions
+
+You agree not to:
+
+* Abuse or exploit Cool Cola
+* Attempt to bypass verification systems
+* Reverse engineer or interfere with the Bot
+* Use the Bot to spam, scam, or harass others
+* Attempt unauthorized access to systems or accounts
+* Use the Bot in violation of Discord or Roblox rules
+
+Violation of these rules may result in removal of access, bans, or reporting to platform moderators.
+
+---
+
+# 6. Service Availability & Infrastructure
+
+Services provided by Elijxhraz.tech may experience interruptions, downtime, maintenance periods, API limitations, or unexpected technical issues.
+
+We reserve the right to:
+
+* Modify services
+* Suspend services
+* Restrict access
+* Remove features
+* Update infrastructure
+* Reset verification systems
+* Terminate abusive accounts
+* Change hosting limitations
+* Introduce paid or restricted features
+
+without prior notice.
+
+We are not responsible for losses caused by:
+
+* Third-party outages
+* API failures
+* Hosting interruptions
+* Data corruption
+* Unauthorized account access
+* Service incompatibilities
+* Discord outages
+* Roblox outages
+* Network disruptions
+* User configuration mistakes
+
+---
+
+# 7. Third-Party Services
+
+Cool Cola operates through third-party platforms including Discord and Roblox.
+
+Your use of those platforms remains subject to their respective policies:
+
+* urlDiscord Terms of Service[https://discord.com/terms](https://discord.com/terms)
+* urlDiscord Privacy Policy[https://discord.com/privacy](https://discord.com/privacy)
+* urlRoblox Terms of Use[https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use](https://en.help.roblox.com/hc/en-us/articles/115004647846-Roblox-Terms-of-Use)
+* urlRoblox Privacy Policy[https://www.roblox.com/info/privacy](https://www.roblox.com/info/privacy)
+
+We are not responsible for outages, account actions, or issues caused by third-party services.
+
+---
+
+# 8. Disclaimer of Warranty
+
+Cool Cola is provided on an “as is” and “as available” basis.
+
+We do not guarantee:
+
+* Continuous uptime
+* Error-free functionality
+* Compatibility with all servers or systems
+* Protection against every form of abuse or attack
+
+Features may change, be modified, or be discontinued at any time.
+
+---
+
+# 9. Limitation of Liability
+
+To the maximum extent permitted by law, Cool Cola and its developers shall not be liable for:
+
+* Data loss
+* Server issues
+* Account issues
+* Indirect or incidental damages
+* Losses resulting from misuse of the Bot
+* Downtime or interruptions
+
+Your use of the Bot is at your own discretion and risk.
+
+---
+
+# 10. User Responsibilities
+
+By using Elijxhraz.tech services, you agree that you will not:
+
+* Abuse infrastructure resources
+* Attempt unauthorized access
+* Distribute malware or malicious software
+* Attempt to bypass security systems
+* Use services for phishing or fraud
+* Spam or harass users
+* Violate Discord or Roblox policies
+* Host illegal or harmful content
+* Interfere with system stability
+* Attempt denial-of-service attacks
+* Reverse engineer protected systems
+* Abuse APIs or rate limits
+* Circumvent bans or restrictions
+
+Users are responsible for activity occurring through their own accounts, hosted systems, bots, or credentials.
+
+Violations may result in immediate suspension or permanent removal from the Services.
+
+---
+
+# 11. Termination
+
+We reserve the right to suspend or terminate access to Cool Cola at any time, with or without notice, for behavior that violates these terms or threatens the security or stability of the service.
+
+---
+
+# 12. Changes to These Terms
+
+We may update these Terms of Service and Privacy Policy from time to time.
+
+Continued use of Cool Cola after updates means you accept the revised terms.
+
+The latest version should always be considered the active version.
+
+---
+
+# 13. Contact
+
+If you have questions, concerns, or requests regarding these terms or your data, you may contact the Cool Cola team through the official Discord server or support channels associated with the Bot.
+
+---
+
+# 14. Additional Legal Information
+
+Nothing within these Terms guarantees uninterrupted service, permanent storage, permanent account access, or compatibility with all platforms.
+
+Elijxhraz.tech reserves all rights not explicitly granted within these Terms.
+
+If any portion of these Terms is found unenforceable, the remaining sections shall continue to remain in effect.
+
+Users who continue using the Services after policy updates acknowledge acceptance of revised terms.
+
+---
+
+# 15. Summary
+
+* Cool Cola is used for Roblox and Discord account verification.
+* We do not sell your personal information.
+* We do not ask for passwords.
+* We only collect limited information necessary for verification and functionality.
+* Abuse or misuse of the Bot may result in loss of access.
+* By using the Bot, you agree to these terms.
