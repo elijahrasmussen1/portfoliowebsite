@@ -196,17 +196,18 @@ function ResumeTransition() {
 
 export default function PageTransition({ children, variant = "default" }) {
   const location = useLocation();
-  const contentDelay = variant === "about" ? 0.56 : 0.18;
+  const isAbout = variant === "about";
+  const contentDelay = isAbout ? 0 : 0.18;
 
   return (
     <AnimatePresence mode="wait">
       <motion.div key={location.pathname} style={{ position: "relative" }}>
         <TransitionOverlay variant={variant} />
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={{ opacity: isAbout ? 1 : 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, delay: contentDelay }}
+          transition={{ duration: isAbout ? 0 : 0.2, delay: contentDelay }}
         >
           {children}
         </motion.div>
