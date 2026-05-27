@@ -29,26 +29,60 @@ function DefaultTransition() {
 
 function AboutTransition() {
   const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const animRef = useRef(null);
   const [visible, setVisible] = useState(true);
   const [videoSrc, setVideoSrc] = useState(null);
 
   useEffect(() => {
-    // Dynamically import the transition video (may not exist in repo)
     import("./assets/tran.mp4")
       .then((mod) => setVideoSrc(mod.default))
       .catch(() => {
-        // Video not available, hide transition after brief delay
         setTimeout(() => setVisible(false), 450);
       });
   }, []);
 
   useEffect(() => {
-    if (!videoSrc || !videoRef.current) return;
+    if (!videoSrc || !videoRef.current || !canvasRef.current) return;
     const vid = videoRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
     vid.currentTime = 0;
     vid.play().catch(() => {});
+
+    const draw = () => {
+      if (vid.paused || vid.ended) {
+        setVisible(false);
+        return;
+      }
+      canvas.width = vid.videoWidth || 1920;
+      canvas.height = vid.videoHeight || 1080;
+      ctx.drawImage(vid, 0, 0, canvas.width, canvas.height);
+      const frame = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = frame.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        // Key out red: if pixel is mostly red with low green and blue
+        if (r > 100 && r > g * 1.8 && r > b * 1.8) {
+          data[i + 3] = 0; // make transparent
+        }
+      }
+      ctx.putImageData(frame, 0, 0);
+      animRef.current = requestAnimationFrame(draw);
+    };
+
+    vid.addEventListener("play", () => {
+      animRef.current = requestAnimationFrame(draw);
+    });
+
     const timer = setTimeout(() => setVisible(false), 1770);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
   }, [videoSrc]);
 
   if (!visible) return null;
@@ -60,22 +94,26 @@ function AboutTransition() {
         inset: 0,
         zIndex: 9999,
         pointerEvents: "none",
-        mixBlendMode: "screen",
       }}
     >
       {videoSrc && (
-        <video
-          ref={videoRef}
-          src={videoSrc}
-          muted={false}
-          playsInline
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "saturate(0) contrast(1.8) brightness(1.2)",
-          }}
-        />
+        <>
+          <video
+            ref={videoRef}
+            src={videoSrc}
+            muted={false}
+            playsInline
+            style={{ display: "none" }}
+          />
+          <canvas
+            ref={canvasRef}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </>
       )}
     </div>
   );
