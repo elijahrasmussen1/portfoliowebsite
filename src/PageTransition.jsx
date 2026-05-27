@@ -28,12 +28,13 @@ function DefaultTransition() {
 }
 
 // Reusable chroma-key video component (optimized for performance)
-function ChromaKeyVideo({ src, onEnded }) {
+function ChromaKeyVideo({ src, onEnded, muted = false }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const animRef = useRef(null);
   const [visible, setVisible] = useState(true);
   const sizeRef = useRef({ w: 0, h: 0 });
+  const lastTimeRef = useRef(-1);
 
   useEffect(() => {
     if (!src || !videoRef.current || !canvasRef.current) return;
@@ -41,17 +42,6 @@ function ChromaKeyVideo({ src, onEnded }) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     let ended = false;
-
-    const init = () => {
-      // Use half resolution for performance
-      const w = Math.round((vid.videoWidth || 1920) / 2);
-      const h = Math.round((vid.videoHeight || 1080) / 2);
-      if (sizeRef.current.w !== w || sizeRef.current.h !== h) {
-        sizeRef.current = { w, h };
-        canvas.width = w;
-        canvas.height = h;
-      }
-    };
 
     vid.currentTime = 0;
     vid.play().catch(() => {});
@@ -64,22 +54,39 @@ function ChromaKeyVideo({ src, onEnded }) {
         onEnded?.();
         return;
       }
-      init();
-      const { w, h } = sizeRef.current;
+
+      // Skip if video frame hasn't changed
+      if (vid.currentTime === lastTimeRef.current) {
+        animRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      lastTimeRef.current = vid.currentTime;
+
+      // Use half resolution for performance
+      const w = Math.round((vid.videoWidth || 1920) / 2);
+      const h = Math.round((vid.videoHeight || 1080) / 2);
+      if (sizeRef.current.w !== w || sizeRef.current.h !== h) {
+        sizeRef.current = { w, h };
+        canvas.width = w;
+        canvas.height = h;
+      }
+
       ctx.drawImage(vid, 0, 0, w, h);
       const frame = ctx.getImageData(0, 0, w, h);
-      const data = frame.data;
-      const len = data.length;
-      for (let i = 0; i < len; i += 4) {
-        const r = data[i];
-        const g = data[i + 1];
-        const b = data[i + 2];
+      const d = new Uint32Array(frame.data.buffer);
+      const len = d.length;
+      for (let i = 0; i < len; i++) {
+        const pixel = d[i];
+        // Extract RGBA (little-endian: ABGR in memory)
+        const r = pixel & 0xff;
+        const g = (pixel >> 8) & 0xff;
+        const b = (pixel >> 16) & 0xff;
         if (
           (r > 80 && r > g * 1.4 && r > b * 1.4) ||
           (r > 30 && g < 60 && b < 60 && r > g && r > b) ||
           (r < 40 && g < 40 && b < 40)
         ) {
-          data[i + 3] = 0;
+          d[i] = 0; // fully transparent (all channels zero)
         }
       }
       ctx.putImageData(frame, 0, 0);
@@ -111,7 +118,7 @@ function ChromaKeyVideo({ src, onEnded }) {
       <video
         ref={videoRef}
         src={src}
-        muted
+        muted={muted}
         playsInline
         style={{ display: "none" }}
       />
