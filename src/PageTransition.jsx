@@ -27,44 +27,58 @@ function DefaultTransition() {
   ));
 }
 
-// Reusable chroma-key video component
+// Reusable chroma-key video component (optimized for performance)
 function ChromaKeyVideo({ src, onEnded }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const animRef = useRef(null);
   const [visible, setVisible] = useState(true);
+  const sizeRef = useRef({ w: 0, h: 0 });
 
   useEffect(() => {
     if (!src || !videoRef.current || !canvasRef.current) return;
     const vid = videoRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    let ended = false;
+
+    const init = () => {
+      // Use half resolution for performance
+      const w = Math.round((vid.videoWidth || 1920) / 2);
+      const h = Math.round((vid.videoHeight || 1080) / 2);
+      if (sizeRef.current.w !== w || sizeRef.current.h !== h) {
+        sizeRef.current = { w, h };
+        canvas.width = w;
+        canvas.height = h;
+      }
+    };
 
     vid.currentTime = 0;
     vid.play().catch(() => {});
 
     const draw = () => {
+      if (ended) return;
       if (vid.paused || vid.ended) {
+        ended = true;
         setVisible(false);
         onEnded?.();
         return;
       }
-      const w = vid.videoWidth || 1920;
-      const h = vid.videoHeight || 1080;
-      canvas.width = w;
-      canvas.height = h;
-      ctx.clearRect(0, 0, w, h);
+      init();
+      const { w, h } = sizeRef.current;
       ctx.drawImage(vid, 0, 0, w, h);
       const frame = ctx.getImageData(0, 0, w, h);
       const data = frame.data;
-      for (let i = 0; i < data.length; i += 4) {
+      const len = data.length;
+      for (let i = 0; i < len; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        const isRed = r > 80 && r > g * 1.4 && r > b * 1.4;
-        const isDarkRed = r > 30 && g < 60 && b < 60 && r > g && r > b;
-        const isNearBlack = r < 40 && g < 40 && b < 40;
-        if (isRed || isDarkRed || isNearBlack) {
+        if (
+          (r > 80 && r > g * 1.4 && r > b * 1.4) ||
+          (r > 30 && g < 60 && b < 60 && r > g && r > b) ||
+          (r < 40 && g < 40 && b < 40)
+        ) {
           data[i + 3] = 0;
         }
       }
@@ -77,6 +91,7 @@ function ChromaKeyVideo({ src, onEnded }) {
     });
 
     return () => {
+      ended = true;
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
   }, [src]);

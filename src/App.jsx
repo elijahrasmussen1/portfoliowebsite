@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import menuVideo from './assets/Mainn.mp4'
 import main1 from './assets/main1.mp4'
 import main2 from './assets/main2.mp4'
@@ -27,12 +27,17 @@ function AnimatedRoutes() {
   const navigate = useNavigate()
   const [exitVfx, setExitVfx] = useState(null) // src for tran1.mp4
   const [pendingNav, setPendingNav] = useState(null)
+  const audioRef = useRef(null)
 
-  // Load tran1.mp4 src on mount
+  // Preload tran1.mp4 src and tran.mp4 audio on mount
   const [tran1Src, setTran1Src] = useState(null)
+  const [tranAudioSrc, setTranAudioSrc] = useState(null)
   useEffect(() => {
     import('./assets/tran1.mp4')
       .then((mod) => setTran1Src(mod.default))
+      .catch(() => {})
+    import('./assets/tran.mp4')
+      .then((mod) => setTranAudioSrc(mod.default))
       .catch(() => {})
   }, [])
 
@@ -41,6 +46,11 @@ function AnimatedRoutes() {
       // Play tran1 exit VFX on main page, delay navigation until it ends
       setExitVfx(tran1Src)
       setPendingNav('/about')
+      // Play tran.mp4 audio over the whole transition
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0
+        audioRef.current.play().catch(() => {})
+      }
     } else {
       navigate(`/${page}`)
     }
@@ -56,6 +66,10 @@ function AnimatedRoutes() {
 
   return (
     <>
+      {/* Audio from tran.mp4 plays over both VFX transitions */}
+      {tranAudioSrc && (
+        <audio ref={audioRef} src={tranAudioSrc} preload="auto" />
+      )}
       {/* Exit VFX overlay (tran1.mp4) plays on top of main page */}
       {exitVfx && (
         <ExitTransitionOverlay videoSrc={exitVfx} onComplete={handleExitComplete} />
