@@ -47,7 +47,7 @@ function AboutTransition() {
     const vid = videoRef.current;
     vid.currentTime = 0;
     vid.play().catch(() => {});
-    const timer = setTimeout(() => setVisible(false), 1000);
+    const timer = setTimeout(() => setVisible(false), 1770);
     return () => clearTimeout(timer);
   }, [videoSrc]);
 
@@ -73,6 +73,7 @@ function AboutTransition() {
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            filter: "saturate(0) contrast(1.8) brightness(1.2)",
           }}
         />
       )}
@@ -157,7 +158,7 @@ function ResumeTransition() {
 
 export default function PageTransition({ children, variant = "default" }) {
   const location = useLocation();
-  const contentDelay = variant === "about" ? 0.4 : 0.18;
+  const contentDelay = variant === "about" ? 0.56 : 0.18;
 
   return (
     <AnimatePresence mode="wait">
