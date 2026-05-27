@@ -78,7 +78,7 @@ function AboutTransition() {
       animRef.current = requestAnimationFrame(draw);
     });
 
-    const timer = setTimeout(() => setVisible(false), 1770);
+    const timer = setTimeout(() => setVisible(false), 1470);
     return () => {
       clearTimeout(timer);
       if (animRef.current) cancelAnimationFrame(animRef.current);
@@ -197,17 +197,17 @@ function ResumeTransition() {
 export default function PageTransition({ children, variant = "default" }) {
   const location = useLocation();
   const isAbout = variant === "about";
-  const contentDelay = isAbout ? 0 : 0.18;
+  const contentDelay = isAbout ? 0.58 : 0.18;
 
   return (
     <AnimatePresence mode="wait">
       <motion.div key={location.pathname} style={{ position: "relative" }}>
         <TransitionOverlay variant={variant} />
         <motion.div
-          initial={{ opacity: isAbout ? 1 : 0 }}
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: isAbout ? 0 : 0.2, delay: contentDelay }}
+          transition={{ duration: isAbout ? 0.05 : 0.2, delay: contentDelay }}
         >
           {children}
         </motion.div>
