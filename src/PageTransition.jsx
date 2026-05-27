@@ -27,23 +27,15 @@ function DefaultTransition() {
   ));
 }
 
-function AboutTransition() {
+// Reusable chroma-key video component
+function ChromaKeyVideo({ src, onEnded }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const animRef = useRef(null);
   const [visible, setVisible] = useState(true);
-  const [videoSrc, setVideoSrc] = useState(null);
 
   useEffect(() => {
-    import("./assets/tran.mp4")
-      .then((mod) => setVideoSrc(mod.default))
-      .catch(() => {
-        setTimeout(() => setVisible(false), 450);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (!videoSrc || !videoRef.current || !canvasRef.current) return;
+    if (!src || !videoRef.current || !canvasRef.current) return;
     const vid = videoRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
@@ -51,16 +43,16 @@ function AboutTransition() {
     vid.currentTime = 0;
     vid.play().catch(() => {});
 
-    const w = vid.videoWidth || 1920;
-    const h = vid.videoHeight || 1080;
-    canvas.width = w;
-    canvas.height = h;
-
     const draw = () => {
       if (vid.paused || vid.ended) {
         setVisible(false);
+        onEnded?.();
         return;
       }
+      const w = vid.videoWidth || 1920;
+      const h = vid.videoHeight || 1080;
+      canvas.width = w;
+      canvas.height = h;
       ctx.clearRect(0, 0, w, h);
       ctx.drawImage(vid, 0, 0, w, h);
       const frame = ctx.getImageData(0, 0, w, h);
@@ -69,12 +61,11 @@ function AboutTransition() {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
-        // Key out red background: bright reds, dark reds, and near-black pixels
         const isRed = r > 80 && r > g * 1.4 && r > b * 1.4;
         const isDarkRed = r > 30 && g < 60 && b < 60 && r > g && r > b;
         const isNearBlack = r < 40 && g < 40 && b < 40;
         if (isRed || isDarkRed || isNearBlack) {
-          data[i + 3] = 0; // fully transparent
+          data[i + 3] = 0;
         }
       }
       ctx.putImageData(frame, 0, 0);
@@ -85,14 +76,12 @@ function AboutTransition() {
       animRef.current = requestAnimationFrame(draw);
     });
 
-    const timer = setTimeout(() => setVisible(false), 1470);
     return () => {
-      clearTimeout(timer);
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
-  }, [videoSrc]);
+  }, [src]);
 
-  if (!visible) return null;
+  if (!visible || !src) return null;
 
   return (
     <div
@@ -104,28 +93,42 @@ function AboutTransition() {
         background: "transparent",
       }}
     >
-      {videoSrc && (
-        <>
-          <video
-            ref={videoRef}
-            src={videoSrc}
-            muted={false}
-            playsInline
-            style={{ display: "none" }}
-          />
-          <canvas
-            ref={canvasRef}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              background: "transparent",
-            }}
-          />
-        </>
-      )}
+      <video
+        ref={videoRef}
+        src={src}
+        muted
+        playsInline
+        style={{ display: "none" }}
+      />
+      <canvas
+        ref={canvasRef}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          background: "transparent",
+        }}
+      />
     </div>
   );
+}
+
+// Exit transition: plays tran1.mp4 on the main page before navigating
+export function ExitTransitionOverlay({ videoSrc, onComplete }) {
+  return <ChromaKeyVideo src={videoSrc} onEnded={onComplete} />;
+}
+
+// Entry transition: plays tran2.mp4 on the about page after arriving
+function AboutTransition() {
+  const [videoSrc, setVideoSrc] = useState(null);
+
+  useEffect(() => {
+    import("./assets/tran2.mp4")
+      .then((mod) => setVideoSrc(mod.default))
+      .catch(() => {});
+  }, []);
+
+  return <ChromaKeyVideo src={videoSrc} />;
 }
 
 
@@ -209,8 +212,6 @@ export default function PageTransition({ children, variant = "default" }) {
 
   return (
     <>
-      {/* Render the about transition overlay outside the opacity-controlled wrapper
-          so it's visible immediately (over the main page) while content fades in beneath */}
       {isAbout && <TransitionOverlay variant={variant} />}
       <motion.div
         key={location.pathname}
@@ -224,7 +225,7 @@ export default function PageTransition({ children, variant = "default" }) {
         exit={{ opacity: 0 }}
         transition={{
           duration: isAbout ? 0.3 : 0.2,
-          delay: isAbout ? 0.7 : 0.18,
+          delay: isAbout ? 0.1 : 0.18,
         }}
       >
         {!isAbout && <TransitionOverlay variant={variant} />}
