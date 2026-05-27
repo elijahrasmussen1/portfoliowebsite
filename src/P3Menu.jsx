@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 
 const ITEMS = [
   { id: "about",   label: "ABOUT ME",      page: "about",   fontSize: 80, offsetX: 0,  offsetY: 0,  skew: -6,  skewY: 10  },
-  { id: "resume",  label: "RESUME",        page: "resume",  fontSize: 66, offsetX: 20, offsetY: 8,  skew: -11, skewY: -10 },
+  { id: "resume",  label: "BOT HOST",      page: "resume",  fontSize: 66, offsetX: 20, offsetY: 8,  skew: -11, skewY: -10 },
   { id: "github",  label: "GITHUB LINK",   page: "github",  fontSize: 68, offsetX: 8, offsetY: 6,  skew: 0, skewY: -4  },
   { id: "socials", label: "SOCIALS",       page: "socials", fontSize: 74, offsetX: 16, offsetY: 8,  skew: -3,  skewY: 5   },
   { id: "sideproj",label: "SIDE PROJECTS", page: "sideproj",fontSize: 56, offsetX: 10, offsetY: 6,  skew: -4,  skewY: 7   },
+  { id: "policies",label: "POLICIES",      page: "policies",fontSize: 36, offsetX: 0,  offsetY: 4,  skew: -4,  skewY: 5   },
 ];
 
 const CLIP_SHAPES = [
+  (w, h) => `polygon(0px 0px, ${w}px ${h * 0.5}px, 0px ${h}px)`,
   (w, h) => `polygon(0px 0px, ${w}px ${h * 0.5}px, 0px ${h}px)`,
   (w, h) => `polygon(0px 0px, ${w}px ${h * 0.5}px, 0px ${h}px)`,
   (w, h) => `polygon(0px 0px, ${w}px ${h * 0.5}px, 0px ${h}px)`,
@@ -152,11 +154,13 @@ export default function P3Menu({ onNavigate }) {
         }
 
         .p3-label-dark {
-          color: #3ce2ff;
-          transition: color 0.12s ease;
+          color: #ffffff;
+          text-shadow: 0 0 8px rgba(0,200,255,0.7), 0 2px 4px rgba(0,0,0,0.8);
+          -webkit-text-stroke: 1px rgba(0,180,255,0.4);
+          transition: color 0.12s ease, text-shadow 0.12s ease;
         }
-        .p3-row.active .p3-label-dark { color: #6b0010; }
-        .p3-row:hover:not(.active) .p3-label-dark { color: #00d9ff; }
+        .p3-row.active .p3-label-dark { color: #6b0010; text-shadow: none; -webkit-text-stroke: 0; }
+        .p3-row:hover:not(.active) .p3-label-dark { color: #ffffff; text-shadow: 0 0 12px rgba(0,220,255,0.9), 0 2px 6px rgba(0,0,0,0.9); }
 
         .p3-label-bright {
           color: #ff2a2a;
@@ -195,12 +199,18 @@ export default function P3Menu({ onNavigate }) {
           top: 18px;
           left: 22px;
           z-index: 20;
-          font-family: 'Anton', sans-serif;
-          font-style: italic;
+          font-family: 'The Jacatra', sans-serif;
+          font-style: normal;
           font-size: 108px;
           line-height: 0.88;
-          letter-spacing: 2px;
-          color: rgba(10, 10, 14, 0.64);
+          letter-spacing: 4px;
+          color: #7df9ff;
+          background: linear-gradient(135deg, #b388ff 0%, #7df9ff 45%, #ffffff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
+          filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 12px rgba(125, 249, 255, 0.6)) drop-shadow(0 0 24px rgba(179, 136, 255, 0.3));
           transform: rotate(18deg);
           transform-origin: left top;
           user-select: none;
@@ -210,14 +220,17 @@ export default function P3Menu({ onNavigate }) {
           align-items: flex-start;
         }
         .p3-name-tag span:first-child {
-          color: rgba(0, 0, 0, 0.86);
+          background: linear-gradient(135deg, #c9a0ff 0%, #7df9ff 50%, #ffffff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
         }
       `}</style>
 
       <div className="p3-overlay">
         <div className="p3-name-tag">
-          <span>jade's</span>
-          <span>persona</span>
+          <span>elijah's</span>
+          <span>&nbsp;tech</span>
         </div>
         <div className="p3-stripe" />
         <div className="p3-stripe2" />

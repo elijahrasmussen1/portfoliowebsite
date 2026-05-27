@@ -1,5 +1,6 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import { useRef, useEffect, useState } from "react";
 
 const defaultBlocks = ["#0d1a3a", "#1a6aff", "#7dd4fc"];
 
@@ -26,38 +27,141 @@ function DefaultTransition() {
   ));
 }
 
-function AboutTransition() {
-  const panels = [
-    { color: "#00184c", top: "-12vh", left: "-18vw", width: "86vw", delay: 0 },
-    { color: "#53edff", top: "24vh", left: "-10vw", width: "72vw", delay: 0.05 },
-    { color: "#ffffff", top: "58vh", left: "-14vw", width: "82vw", delay: 0.1 },
-  ];
+// Reusable chroma-key video component (optimized for performance)
+// keyColor: "red" (default) or "green" for green-screen keying
+function ChromaKeyVideo({ src, onEnded, muted = false, keyColor = "red" }) {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const animRef = useRef(null);
+  const [visible, setVisible] = useState(true);
+  const sizeRef = useRef({ w: 0, h: 0 });
+  const lastTimeRef = useRef(-1);
 
-  return panels.map((panel, i) => (
-    <motion.div
-      key={i}
+  useEffect(() => {
+    if (!src || !videoRef.current || !canvasRef.current) return;
+    const vid = videoRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    let ended = false;
+
+    vid.currentTime = 0;
+    vid.play().catch(() => {});
+
+    const draw = () => {
+      if (ended) return;
+      if (vid.paused || vid.ended) {
+        ended = true;
+        setVisible(false);
+        onEnded?.();
+        return;
+      }
+
+      // Skip if video frame hasn't changed
+      if (vid.currentTime === lastTimeRef.current) {
+        animRef.current = requestAnimationFrame(draw);
+        return;
+      }
+      lastTimeRef.current = vid.currentTime;
+
+      // Use half resolution for performance
+      const w = Math.round((vid.videoWidth || 1920) / 2);
+      const h = Math.round((vid.videoHeight || 1080) / 2);
+      if (sizeRef.current.w !== w || sizeRef.current.h !== h) {
+        sizeRef.current = { w, h };
+        canvas.width = w;
+        canvas.height = h;
+      }
+
+      ctx.drawImage(vid, 0, 0, w, h);
+      const frame = ctx.getImageData(0, 0, w, h);
+      const d = new Uint32Array(frame.data.buffer);
+      const len = d.length;
+      for (let i = 0; i < len; i++) {
+        const pixel = d[i];
+        // Extract RGBA (little-endian: ABGR in memory)
+        const r = pixel & 0xff;
+        const g = (pixel >> 8) & 0xff;
+        const b = (pixel >> 16) & 0xff;
+        let shouldKey = false;
+        if (keyColor === "green") {
+          // Green screen keying
+          shouldKey =
+            (g > 80 && g > r * 1.4 && g > b * 1.4) ||
+            (g > 30 && r < 60 && b < 60 && g > r && g > b) ||
+            (r < 40 && g < 40 && b < 40);
+        } else {
+          // Red screen keying
+          shouldKey =
+            (r > 80 && r > g * 1.4 && r > b * 1.4) ||
+            (r > 30 && g < 60 && b < 60 && r > g && r > b) ||
+            (r < 40 && g < 40 && b < 40);
+        }
+        if (shouldKey) {
+          d[i] = 0; // fully transparent
+        }
+      }
+      ctx.putImageData(frame, 0, 0);
+      animRef.current = requestAnimationFrame(draw);
+    };
+
+    vid.addEventListener("play", () => {
+      animRef.current = requestAnimationFrame(draw);
+    });
+
+    return () => {
+      ended = true;
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, [src]);
+
+  if (!visible || !src) return null;
+
+  return (
+    <div
       style={{
         position: "fixed",
-        top: panel.top,
-        left: panel.left,
-        width: panel.width,
-        height: "26vh",
-        background: panel.color,
-        zIndex: 999 - i,
-        clipPath: "polygon(0 0, 100% 0, calc(100% - 120px) 100%, 0 100%)",
-        transform: "rotate(-18deg)",
-        transformOrigin: "left center",
+        inset: 0,
+        zIndex: 9999,
+        pointerEvents: "none",
+        background: "transparent",
       }}
-      initial={{ x: -500, opacity: 0 }}
-      animate={{ x: [-500, 20, 0], opacity: [1, 1, 0] }}
-      transition={{
-        duration: 0.52,
-        delay: panel.delay,
-        times: [0, 0.68, 1],
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    />
-  ));
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        muted={muted}
+        playsInline
+        style={{ display: "none" }}
+      />
+      <canvas
+        ref={canvasRef}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          background: "transparent",
+        }}
+      />
+    </div>
+  );
+}
+
+// Exit transition: plays tran1.mp4 on the main page before navigating
+export function ExitTransitionOverlay({ videoSrc, onComplete }) {
+  return <ChromaKeyVideo src={videoSrc} onEnded={onComplete} />;
+}
+
+// Entry transition: plays tran2.mp4 on the about page after arriving
+function AboutTransition() {
+  const [videoSrc, setVideoSrc] = useState(null);
+
+  useEffect(() => {
+    import("./assets/tran2.mp4")
+      .then((mod) => setVideoSrc(mod.default))
+      .catch(() => {});
+  }, []);
+
+  return <ChromaKeyVideo src={videoSrc} />;
 }
 
 
@@ -96,9 +200,23 @@ function SocialsTransition() {
 
 function TransitionOverlay({ variant }) {
   if (variant === "about") return <AboutTransition />;
+  if (variant === "policies") return <PolicyTransition />;
   if (variant === "resume") return <ResumeTransition />;
   if (variant === "socials") return <SocialsTransition />;
   return <DefaultTransition />;
+}
+
+// Entry transition for policies page: green-screen chroma key
+function PolicyTransition() {
+  const [videoSrc, setVideoSrc] = useState(null);
+
+  useEffect(() => {
+    import("./assets/policy.mp4")
+      .then((mod) => setVideoSrc(mod.default))
+      .catch(() => {});
+  }, []);
+
+  return <ChromaKeyVideo src={videoSrc} keyColor="green" />;
 }
 
 function ResumeTransition() {
@@ -137,20 +255,29 @@ function ResumeTransition() {
 
 export default function PageTransition({ children, variant = "default" }) {
   const location = useLocation();
+  const isOverlay = variant === "about" || variant === "policies";
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div key={location.pathname} style={{ position: "relative" }}>
-        <TransitionOverlay variant={variant} />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, delay: 0.18 }}
-        >
-          {children}
-        </motion.div>
+    <>
+      {isOverlay && <TransitionOverlay variant={variant} />}
+      <motion.div
+        key={location.pathname}
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: isOverlay ? 1 : 0,
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: isOverlay ? 0.3 : 0.2,
+          delay: isOverlay ? 0.1 : 0.18,
+        }}
+      >
+        {!isOverlay && <TransitionOverlay variant={variant} />}
+        {children}
       </motion.div>
-    </AnimatePresence>
+    </>
   );
 }
